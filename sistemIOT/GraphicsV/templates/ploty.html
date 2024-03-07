@@ -1,0 +1,90 @@
+{% extends 'prindex.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0">Consulta de Datos</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Formulario -->
+                    <form id="consultaForm" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="nombre_campo">Nombre del Campo:</label>
+                            <select class="form-control" id="nombre_campo" name="nombre_campo">
+                                <option value="humedad">Humedad</option>
+                                <option value="temperatura">Temperatura</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad_valores">Cantidad de Valores:</label>
+                            <input type="number" class="form-control" id="cantidad_valores" name="cantidad_valores"
+                                placeholder="Cantidad de Valores">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Consultar Datos</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Espacio para mostrr la gráfica -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+             <!-- Mostrar el campo seleccionadi -->
+            <h3>{{ selected_field }}</h3>
+             <!-- gráfica de Plotly -->
+            <div id="plot" class="plotly-container" style="width:100%;height:500px;"></div> 
+            {% if error %}
+            <p>{{ error }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+    // Obtener los datos recibidos de la API
+    console.log("Datos recibidos de la API:", {{ data|safe }});
+    var data = {{ data|safe }};
+
+    // Accede al array de datos para que los pueda lerr 
+    var datos = data.datos;
+
+    // Crear los datos para la gráfica de Plotly
+    var trace = {
+        x: datos.map(item => item.ID), // Datos para el eje x
+        y: datos.map(item => item.Valor), // Datos para el eje y
+        type: 'scatter', // Tipo de gráfica (líneas)
+        mode: 'lines+markers', // Modo de visualización (líneas y marcadores)
+        name: 'Datos' // Nombre de la serie
+    };
+
+    // Configurar el diseño de la gráfica
+    var layout = {
+        title: 'Gráfico de Datos', // Título de la gráfica
+        xaxis: {
+            title: 'Eje X' // Título del eje x
+        },
+        yaxis: {
+            title: 'Eje Y' // Título del eje y
+        }
+    };
+
+    // Crear la figura de Plotly
+    var data = [trace];
+    Plotly.newPlot('plot', data, layout);
+    </script>
+    <script>
+        console.log("Datos para la gráfica:", {{ data|safe }});
+        console.log("Datos para x:", {{ data|safe }}.map(item => item.ID));
+        console.log("Datos para y:", {{ data|safe }}.map(item => item.Valor));
+    </script>
+    
+
+{% endblock %}

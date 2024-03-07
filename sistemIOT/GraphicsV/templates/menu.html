@@ -1,0 +1,33 @@
+<!-- menu.html -->
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-success sidebar collapse">
+    <div class="position-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'inicio' %}">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'sensores' %}">
+                    <i class="fas fa-chart-line"></i> Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'graficas' %}">
+                    <i class="fas fa-chart-bar"></i> Gráficas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'bokeh' %}">
+                    <i class="fas fa-chart-bar"></i> bokeh
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'GraficaP' %}">
+                    <i class="fas fa-chart-bar"></i> Plotly
+                </a>
+            </li>
+            <!-- mas links-->
+        </ul>
+    </div>
+</nav>

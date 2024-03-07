@@ -1,0 +1,56 @@
+{% extends 'prindex.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h4 class="mb-0">Consulta de Datos</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Formulario -->
+                        <form id="consultaForm" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="nombre_campo">Nombre del Campo:</label>
+                                <select class="form-control" id="nombre_campo" name="nombre_campo">
+                                    <option value="humedad">Humedad</option>
+                                    <option value="temperatura">Temperatura</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidad_valores">Cantidad de Valores:</label>
+                                <input type="number" class="form-control" id="cantidad_valores" name="cantidad_valores" placeholder="Cantidad de Valores">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Consultar Datos</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Espacio para mostrar la gráfica -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+             <!-- Mostrar el nombre  campo -->
+            <h3>{{ selected_field }}</h3>
+            <div id="graficaSection">
+                {% if graph_image %}
+                    <img src="data:image/png;base64,{{ graph_image }}" alt="Gráfico de Datos" class="img-fluid mx-auto d-block">
+                {% endif %}
+                {% if error %}
+                    <p>{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        console.log("Datos recibidos de la API:", {{ data|safe }});
+    </script>
+{% endblock %}
